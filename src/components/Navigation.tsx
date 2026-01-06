@@ -14,9 +14,8 @@ export default function Navigation() {
     <nav className="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          <div className="flex items-center space-x-3">
-            <img src="/image.png" alt="MrShrf Marketing" className="h-12 w-12" />
-            <span className="text-2xl font-bold text-gray-900">MrShrf Marketing</span>
+          <div className="flex items-center">
+            <img src="/logo.png" alt="MrShrf Marketing" className="h-10" />
           </div>
 
           <div className="hidden md:flex items-center space-x-8">

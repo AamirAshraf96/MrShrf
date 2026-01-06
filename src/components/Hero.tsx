@@ -57,9 +57,9 @@ export default function Hero() {
           </div>
 
           <div className="relative">
-            <div className="aspect-square rounded-3xl bg-gradient-to-br from-blue-500 to-blue-700 p-1 shadow-2xl">
+            <div className="aspect-square rounded-3xl bg-gradient-to-br from-teal-500 to-teal-700 p-1 shadow-2xl">
               <div className="w-full h-full bg-white rounded-3xl flex items-center justify-center p-12">
-                <img src="/image.png" alt="MrShrf Marketing" className="w-full h-full object-contain" />
+                <img src="/logo.png" alt="MrShrf Marketing" className="w-full h-full object-contain" />
               </div>
             </div>
             <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl">
