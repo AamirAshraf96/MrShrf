@@ -1,8 +1,6 @@
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { useState } from 'react';
 
-const FORMSPREE_ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT;
-
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
@@ -18,33 +16,26 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-
-    if (!FORMSPREE_ENDPOINT) {
-      setError('Contact form is not configured. Please set VITE_FORMSPREE_ENDPOINT in .env');
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(FORMSPREE_ENDPOINT, {
+      const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
+      const data = await response.json().catch(() => ({}));
+
       if (!response.ok) {
-        throw new Error('Failed to send message');
+        throw new Error(data.error || 'Failed to send message');
       }
 
       setSubmitted(true);
       setFormData({ name: '', email: '', company: '', message: '' });
       setTimeout(() => setSubmitted(false), 5000);
     } catch {
-      setError('Something went wrong. Please try again or email us directly at hello@mrshrf.marketing');
+      setError('Something went wrong. Please try again or email us directly at sales@mrshrf.com');
     } finally {
       setIsSubmitting(false);
     }
@@ -85,7 +76,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-1">Email</h4>
-                  <p className="text-gray-600">hello@mrshrf.marketing</p>
+                  <p className="text-gray-600">sales@mrshrf.com</p>
                 </div>
               </div>
 

@@ -59,7 +59,7 @@ export default function Footer() {
             </p>
             <div className="flex items-center space-x-2 text-sm text-gray-400">
               <Mail size={16} />
-              <span>hello@mrshrf.marketing</span>
+              <span>sales@mrshrf.com</span>
             </div>
           </div>
         </div>
