@@ -56,16 +56,25 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="relative">
-            <div className="aspect-square rounded-3xl bg-gradient-to-br from-teal-500 to-teal-700 p-1 shadow-2xl">
-              <div className="w-full h-full bg-white rounded-3xl flex items-center justify-center p-12">
-                <img src="/logo.png" alt="MrShrf Marketing" className="w-full h-full object-contain" />
-              </div>
+          <div className="relative flex min-h-[280px] items-center justify-center md:min-h-[360px]">
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden rounded-3xl">
+              <div className="absolute h-[min(100%,420px)] w-[min(100%,420px)] rounded-full bg-blue-200/35 blur-3xl" />
+              <div className="absolute h-48 w-48 translate-x-1/3 -translate-y-1/4 rounded-full bg-blue-400/25 blur-2xl" />
+              <div className="absolute -bottom-8 -right-4 h-40 w-40 rounded-full bg-blue-100/60 blur-2xl" />
             </div>
-            <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl">
+
+            <div className="relative z-10 mx-auto flex w-full max-w-[280px] items-center justify-center rounded-3xl border border-blue-100/80 bg-white/75 px-10 py-12 shadow-lg shadow-blue-900/[0.06] backdrop-blur-md md:max-w-[320px] md:px-12 md:py-14">
+              <img
+                src="/logo-lettermark.svg"
+                alt="MrShrf Marketing"
+                className="h-auto w-full max-w-[200px] object-contain md:max-w-[220px]"
+              />
+            </div>
+
+            <div className="absolute -bottom-2 left-0 z-20 rounded-2xl border border-blue-100/90 bg-white/90 p-5 shadow-md shadow-blue-900/[0.05] backdrop-blur-sm md:-bottom-1 md:-left-2">
               <div className="flex items-center space-x-3">
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-sm font-medium text-gray-900">Campaign Active</span>
+                <div className="h-2.5 w-2.5 animate-pulse rounded-full bg-blue-500" />
+                <span className="text-sm font-medium text-gray-800">Campaign Active</span>
               </div>
             </div>
           </div>

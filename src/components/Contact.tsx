@@ -1,6 +1,8 @@
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { useState } from 'react';
 
+const formspreeEndpoint = import.meta.env.VITE_FORMSPREE_ENDPOINT?.trim();
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
@@ -10,14 +12,46 @@ export default function Contact() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
+    setSubmitError(null);
+
+    if (!formspreeEndpoint) {
+      setSubmitError(
+        'Contact form is not configured. Please set VITE_FORMSPREE_ENDPOINT in .env'
+      );
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const res = await fetch(formspreeEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          message: formData.message
+        })
+      });
+
+      if (!res.ok) {
+        const data = (await res.json().catch(() => null)) as { error?: string } | null;
+        throw new Error(data?.error ?? 'Something went wrong. Please try again.');
+      }
+
+      setSubmitted(true);
       setFormData({ name: '', email: '', company: '', message: '' });
-    }, 3000);
+      setTimeout(() => setSubmitted(false), 4000);
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -55,7 +89,14 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-1">Email</h4>
-                  <p className="text-gray-600">hello@mrshrf.marketing</p>
+                  <p className="text-gray-600">
+                    <a
+                      href="mailto:mrshrfmarketing@gmail.com"
+                      className="hover:text-blue-600 transition-colors"
+                    >
+                      mrshrfmarketing@gmail.com
+                    </a>
+                  </p>
                 </div>
               </div>
 
@@ -65,7 +106,11 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-1">Phone</h4>
-                  <p className="text-gray-600">+1 (416) 555-0123</p>
+                  <p className="text-gray-600">
+                    <a href="tel:+14168556314" className="hover:text-blue-600 transition-colors">
+                      +1 (416) 855-6314
+                    </a>
+                  </p>
                 </div>
               </div>
 
@@ -158,11 +203,20 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition-all font-medium flex items-center justify-center space-x-2 group"
+                disabled={submitting}
+                className="w-full bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition-all font-medium flex items-center justify-center space-x-2 group disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <span>{submitted ? 'Message Sent!' : 'Send Message'}</span>
+                <span>
+                  {submitted ? 'Message Sent!' : submitting ? 'Sending…' : 'Send Message'}
+                </span>
                 <Send size={20} className="group-hover:translate-x-1 transition-transform" />
               </button>
+
+              {submitError && (
+                <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
+                  {submitError}
+                </div>
+              )}
 
               {submitted && (
                 <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
