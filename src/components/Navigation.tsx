@@ -13,12 +13,8 @@ export default function Navigation() {
   return (
     <nav className="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          <div className="flex items-center">
-            <img src="/logo-lettermark.svg" alt="MrShrf Marketing" className="h-10 w-auto" />
-          </div>
-
-          <div className="hidden md:flex items-center space-x-8">
+        <div className="flex justify-between items-center h-20 w-full">
+          <div className="hidden md:flex flex-1 justify-end items-center space-x-8">
             <button onClick={() => scrollToSection('home')} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
               Home
             </button>
@@ -41,7 +37,7 @@ export default function Navigation() {
 
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-gray-700"
+            className="md:hidden ml-auto text-gray-700"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
