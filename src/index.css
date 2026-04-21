@@ -8,6 +8,13 @@
   }
 
   body {
-    @apply antialiased;
+    @apply antialiased bg-canvas text-ink font-sans;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: theme('fontFamily.display');
   }
 }
