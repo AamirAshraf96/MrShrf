@@ -1,0 +1,3 @@
+# Copy to `.dev.vars` for local testing with: npx wrangler pages dev dist
+# (Never commit `.dev.vars` — it is gitignored.)
+RESEND_API_KEY=re_paste_your_key_here

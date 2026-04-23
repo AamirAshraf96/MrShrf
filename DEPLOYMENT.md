@@ -4,11 +4,11 @@ This guide covers deploying the MrShrf website and setting up custom domain emai
 
 ## 1. Contact Form (Cloudflare Pages + Resend)
 
-The contact form uses a Cloudflare Pages Function that sends emails via Resend to sales@mrshrf.com.
+The contact form uses a Cloudflare Pages Function that sends emails via Resend to **mrshrfmarketing@gmail.com**.
 
 ### Setup
 
-1. Create a [Resend](https://resend.com) account and verify your domain (mrshrf.com).
+1. Create a [Resend](https://resend.com) account. For the `from` address in code, verify the sender in Resend (domain or single sender, per [Resend docs](https://resend.com/docs)) so delivery works.
 2. In Cloudflare Pages → your project → **Settings** → **Environment variables**.
 3. Add a variable:
    - **Variable name**: `RESEND_API_KEY`
@@ -61,20 +61,9 @@ Purchase `mrshrf.com` (or similar) from:
 
 ---
 
-## 4. Custom Domain Email (Forward to Gmail)
+## 4. Custom Domain Email (optional)
 
-Use Cloudflare Email Routing to forward `sales@mrshrf.com` to your Gmail.
-
-1. Add your domain to Cloudflare (if not already).
-2. Go to **Email** → **Email Routing**.
-3. Create address: `sales` → Forward to your Gmail address.
-4. Add the MX records Cloudflare provides to your domain's DNS.
-
-Emails sent to `sales@mrshrf.com` will appear in your Gmail inbox.
-
-### Sending from Your Domain
-
-In Gmail: **Settings** → **Accounts** → **Add another email address** → enter `sales@mrshrf.com`. You'll need SMTP credentials (e.g. from your domain host or a service like SendGrid) to send from that address.
+Public contact email on the site is **mrshrfmarketing@gmail.com**. If you later want an address like `hello@mrshrf.com`, use Cloudflare **Email** → **Email Routing** to forward that alias to Gmail, and add the MX records Cloudflare provides.
 
 ---
 
@@ -83,4 +72,4 @@ In Gmail: **Settings** → **Accounts** → **Add another email address** → en
 - [ ] Create Resend account, verify domain, and add `RESEND_API_KEY` to Cloudflare Pages
 - [ ] Deploy to Cloudflare Pages (Git or Wrangler)
 - [ ] Buy domain and connect it to Cloudflare Pages
-- [ ] Set up Cloudflare Email Routing to forward to Gmail
+- [ ] (Optional) Cloudflare Email Routing if you use a custom-domain alias

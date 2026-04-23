@@ -4,6 +4,13 @@ import { Reveal } from './motion/Reveal';
 
 const formspreeEndpoint = import.meta.env.VITE_FORMSPREE_ENDPOINT?.trim();
 
+/** Same-origin `/api/contact` (Cloudflare + Resend). Local: optional `VITE_CONTACT_API_ORIGIN` with `wrangler pages dev`. */
+function getApiContactUrl(): string {
+  const raw = import.meta.env.VITE_CONTACT_API_ORIGIN?.trim();
+  const origin = raw ? raw.replace(/\/$/, '') : '';
+  return origin ? `${origin}/api/contact` : '/api/contact';
+}
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
@@ -20,27 +27,29 @@ export default function Contact() {
     e.preventDefault();
     setSubmitError(null);
 
-    if (!formspreeEndpoint) {
-      setSubmitError('Contact form is not configured. Please set VITE_FORMSPREE_ENDPOINT in .env');
-      return;
-    }
-
     setSubmitting(true);
     try {
-      const res = await fetch(formspreeEndpoint, {
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        company: formData.company,
+        message: formData.message,
+      };
+
+      const url = formspreeEndpoint ?? getApiContactUrl();
+      const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          company: formData.company,
-          message: formData.message,
-        }),
+        body: JSON.stringify(payload),
       });
 
+      const data = (await res.json().catch(() => null)) as { error?: string } | null;
       if (!res.ok) {
-        const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        throw new Error(data?.error ?? 'Something went wrong. Please try again.');
+        const fallback =
+          !formspreeEndpoint && res.status === 404
+            ? 'No Formspree URL set (VITE_FORMSPREE_ENDPOINT), and /api/contact was not found. For Formspree: add the env var. For Cloudflare: deploy Pages with Functions and RESEND_API_KEY.'
+            : 'Something went wrong. Please try again.';
+        throw new Error(data?.error ?? fallback);
       }
 
       setSubmitted(true);

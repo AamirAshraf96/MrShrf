@@ -44,8 +44,8 @@ export async function onRequestPost(context: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'MrShrf <sales@mrshrf.com>',
-        to: ['sales@mrshrf.com'],
+        from: 'MrShrf <mrshrfmarketing@gmail.com>',
+        to: ['mrshrfmarketing@gmail.com'],
         reply_to: email,
         subject: `Contact from ${name}${company ? ` (${company})` : ''}`,
         html,
